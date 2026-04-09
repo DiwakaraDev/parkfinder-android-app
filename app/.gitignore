@@ -1,0 +1,118 @@
+#############################################
+# Android
+#############################################
+*.iml
+.gradle/
+/local.properties
+/.idea/caches/
+/.idea/libraries/
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+/.idea/.name
+/.idea/compiler.xml
+/.idea/deploymentTargetDropDown.xml
+/.idea/migrations.xml
+/.idea/misc.xml
+/.idea/render.experimental.xml
+.DS_Store
+/build/
+/captures/
+.externalNativeBuild/
+.cxx/
+
+#############################################
+# App Build Outputs
+#############################################
+app/build/
+app/release/
+*.apk
+*.aab
+*.ap_
+*.dex
+
+#############################################
+# Keystore & Signing (NEVER commit these)
+#############################################
+*.jks
+*.keystore
+keystore.properties
+release-keystore.properties
+signing.properties
+
+#############################################
+# Firebase & Google Services
+# WARNING: Remove google-services.json from
+# version control if it contains sensitive keys
+#############################################
+# google-services.json   ← Uncomment if you want to exclude it
+# GoogleService-Info.plist
+
+#############################################
+# Secrets & API Keys (NEVER commit these)
+#############################################
+secrets.properties
+api_keys.properties
+local.defaults.properties
+*.env
+
+#############################################
+# Gradle
+#############################################
+gradle-wrapper.jar
+.gradle/
+**/build/
+!gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+!**/src/androidTest/**/build/
+
+#############################################
+# IntelliJ / Android Studio
+#############################################
+*.iml
+*.ipr
+*.iws
+.idea/
+out/
+gen/
+
+#############################################
+# OS-generated files
+#############################################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+#############################################
+# ProGuard
+#############################################
+/proguard/
+
+#############################################
+# NDK / CMake
+#############################################
+.externalNativeBuild/
+.cxx/
+*.so
+
+#############################################
+# Test Results & Reports
+#############################################
+test-results/
+build/reports/
+lint-results*.xml
+lint-results*.html
+
+#############################################
+# Dependency cache
+#############################################
+.kotlin/
+# Secrets in gradle.properties
+gradle.properties

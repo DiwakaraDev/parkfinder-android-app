@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">ParkFinder</string>
+    <string name="get_started_page_text">Welcome to ParkFinder! Book your parking spot easily and park with peace of mind. No more hunting for spaces—reserve ahead and save time!</string>
+    <string name="get_started_btn">Get Start</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="create_acc_text">Create an account</string>
+    <string name="f_name">Enter First Name</string>
+    <string name="l_name">Enter Last Name</string>
+    <string name="email">Enter Email</string>
+    <string name="mobile">Enter Mobile</string>
+    <string name="password">Enter Password</string>"
+    <string name="create_new_account">Create New Account</string>"
+    <string name="Sign_up">Sign Up</string>"
+    <string name="i_have_account">I have an Account.Log in</string>"
+    <string name="user_login_text">User Login</string>"
+    <string name="user_login_button_text">Log In</string>"
+    <string name="user_login_goto_create_account_button_text">Goto Create Account</string>"
+    <string name="user_profile_title">User Profile</string>"
+    <string name="user_profile_upadte_data_btn">User Profile Update</string>"
+    <string name="google_maps_key">AIzaSyB9RFuAn70LlU9PwwD0TkcSK56bSLtMH9k</string>"
+    <string name="booking_frag_title">Booking</string>"
+    <string name="book_now_btn_text">Book Now</string>"
+</resources>

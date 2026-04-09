@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Note: You cannot set a background directly in a menu XML.
+         To achieve a glass background for your navigation drawer, set the background in your NavigationView or its header/layout XML using a drawable with glass effect. -->
+
+    <group android:id="@+id/group_main">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/home_icon"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_add"
+            android:icon="@drawable/plus_round_icon"
+            android:title="Add" />
+    </group>
+
+    <group android:id="@+id/group_user">
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/male_icon"
+            android:title="User Profile" />
+        <item
+            android:id="@+id/nav_booking_history"
+            android:icon="@drawable/booking_history_icon"
+            android:title="Booking History" />
+    </group>
+
+    <group android:id="@+id/group_booking">
+        <item
+            android:id="@+id/nav_book_parking"
+            android:icon="@drawable/books_icon"
+            android:title="Booked Parking" />
+    </group>
+
+    <group android:id="@+id/group_info">
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/about_me_icon"
+            android:title="About" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/sign_out_icon"
+            android:title="Log Out" />
+    </group>
+
+</menu>

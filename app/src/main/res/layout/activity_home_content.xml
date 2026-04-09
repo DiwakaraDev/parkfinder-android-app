@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:backgroundTint="@color/white"
+    android:orientation="vertical">
+
+    <!-- Toolbar -->
+    <Toolbar
+        android:id="@+id/main_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/main_blue">
+
+        <!-- Menu Icon -->
+        <ImageButton
+            android:id="@+id/home_button_drawer_toggle"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="start"
+            android:background="@mipmap/menu"
+            android:backgroundTint="@color/white" />
+
+        <!-- App Name -->
+        <TextView
+            android:id="@+id/app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="ParkFinder"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </Toolbar>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/HomeMainfragmentContainerView"
+        android:name="com.javainstitute.parkfinder.MainHomeFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
