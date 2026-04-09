@@ -59,4 +59,5 @@ dependencies {
     implementation("com.google.android.libraries.places:places:3.2.0")
     implementation("com.google.android.material:material:1.11.0")
     implementation("com.github.PayHereDevs:payhere-android-sdk:v3.0.17")
+    implementation("com.google.zxing:core:3.5.3")
 }
