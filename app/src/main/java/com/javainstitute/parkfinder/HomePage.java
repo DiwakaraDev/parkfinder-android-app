@@ -1,5 +1,6 @@
 package com.javainstitute.parkfinder;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
@@ -73,8 +74,10 @@ public class HomePage extends AppCompatActivity {
             } else if (itemId == R.id.nav_booking_history) {
                 selectedFragment = new BookingHistoryFragment(); // ← new
 
-            } else if (itemId == R.id.nav_settings) {
-
+            }  else if (itemId == R.id.nav_settings) {
+                showLogoutConfirmDialog();
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return true;
             }
 
             if (selectedFragment != null) {
@@ -200,6 +203,35 @@ public class HomePage extends AppCompatActivity {
                     userEmailTextView.setText(email);
                     profileImageView.setImageResource(R.drawable.profile_img_upload_sape);
                 });
+    }
+
+    // ── Sign out with confirmation dialog ─────────────────────────────────────────
+
+    private void showLogoutConfirmDialog() {
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Log Out")
+                .setMessage("Are you sure you want to log out?")
+                .setPositiveButton("Log Out", (dialog, which) -> signOut())
+                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                .setCancelable(true)
+                .show();
+    }
+
+    private void signOut() {
+        // 1. Clear all SharedPreferences
+        getSharedPreferences("UserPrefs", MODE_PRIVATE)
+                .edit()
+                .clear()
+                .apply();
+
+        // 2. Sign out from Firebase Auth (if you use it)
+        // FirebaseAuth.getInstance().signOut();
+
+        // 3. Navigate to StartPage and clear the entire back stack
+        Intent intent = new Intent(this, StartPage.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 }
 
