@@ -63,12 +63,18 @@ public class HomePage extends AppCompatActivity {
 
             if (itemId == R.id.nav_home) {
                 selectedFragment = new MainHomeFragment();
+
             } else if (itemId == R.id.nav_book_parking) {
                 selectedFragment = new BookedParkingFragment();
+
             } else if (itemId == R.id.nav_profile) {
                 selectedFragment = new UserProfileFragment();
+
+            } else if (itemId == R.id.nav_booking_history) {
+                selectedFragment = new BookingHistoryFragment(); // ← new
+
             } else if (itemId == R.id.nav_settings) {
-                // TODO: Implement Settings fragment
+
             }
 
             if (selectedFragment != null) {
