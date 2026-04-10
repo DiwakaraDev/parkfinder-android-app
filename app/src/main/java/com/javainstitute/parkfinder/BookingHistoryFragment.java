@@ -53,12 +53,12 @@ public class BookingHistoryFragment extends Fragment {
         return view;
     }
 
-    // ── Load only fully paid bookings (payment_status == "#2") ────────────────
+    // ── Load only fully paid bookings───────────────────────────────────────────────────────────────────────
 
     private void loadCompletedBookings(String email) {
         firestore.collection("bookings")
                 .whereEqualTo("user_email",      email)
-                .whereEqualTo("payment_status",  "#2") // fully confirmed bookings only
+                .whereEqualTo("payment_status",  "#2")
                 .get()
                 .addOnSuccessListener(querySnapshots -> {
                     bookingList.clear();
@@ -86,7 +86,7 @@ public class BookingHistoryFragment extends Fragment {
                         Log.e("BookingHistory", "Error loading history", e));
     }
 
-    // ── Show empty state when list is empty ───────────────────────────────────
+    // ── Show empty state when list is empty ────────────────────────────────────────────────────────────────────
 
     private void toggleEmptyState() {
         if (bookingList.isEmpty()) {

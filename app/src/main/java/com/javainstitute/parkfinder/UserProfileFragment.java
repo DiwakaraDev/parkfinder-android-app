@@ -39,11 +39,11 @@ public class UserProfileFragment extends Fragment {
     private Button updateButton;
     private FirebaseFirestore db;
     private ShapeableImageView profileImageView;
-    private static final int PICK_IMAGE_REQUEST = 1; // Request code for image picker
+    private static final int PICK_IMAGE_REQUEST = 1;
     private FirebaseStorage storage;
     private StorageReference storageReference;
 
-    private String userMobile; // Store user's mobile number to use in image upload
+    private String userMobile;
     private static final String PROFILE_IMAGE_FILENAME = "profile_image.jpg";
 
     @Override
@@ -73,8 +73,7 @@ public class UserProfileFragment extends Fragment {
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", getContext().MODE_PRIVATE);
         String userEmail = sharedPreferences.getString("email", null);
 
-        // Try to load local profile image first
-        Bitmap localProfileImage = loadProfileImageFromLocal(); // <-- Load from local storage
+        Bitmap localProfileImage = loadProfileImageFromLocal();
         if (localProfileImage != null) {
             profileImageView.setImageBitmap(localProfileImage);
         }
@@ -105,7 +104,7 @@ public class UserProfileFragment extends Fragment {
                 profileImageView.setImageBitmap(selectedImage);
 
                 // Save the image to local storage
-                saveProfileImageToLocal(selectedImage); // <-- Save to local storage
+                saveProfileImageToLocal(selectedImage);
 
                 // Save the image to Firebase Storage
                 uploadImageToFirebase(imageUri);
@@ -211,7 +210,6 @@ public class UserProfileFragment extends Fragment {
 
     // Save bitmap to local storage
     private void saveProfileImageToLocal(Bitmap bitmap) {
-        // <-- Save profile image to app's internal storage
         try {
             File file = new File(requireContext().getFilesDir(), PROFILE_IMAGE_FILENAME);
             FileOutputStream fos = new FileOutputStream(file);
@@ -222,9 +220,8 @@ public class UserProfileFragment extends Fragment {
         }
     }
 
-    // Load bitmap from local storage
     private Bitmap loadProfileImageFromLocal() {
-        // <-- Load profile image from app's internal storage
+
         try {
             File file = new File(requireContext().getFilesDir(), PROFILE_IMAGE_FILENAME);
             if (file.exists()) {
@@ -240,8 +237,8 @@ public class UserProfileFragment extends Fragment {
     }
 
     private void loadProfileImage(String imageUrl) {
-        // Try to load from local storage first
-        Bitmap localProfileImage = loadProfileImageFromLocal(); // <-- Try local first
+
+        Bitmap localProfileImage = loadProfileImageFromLocal();
         if (localProfileImage != null) {
             profileImageView.setImageBitmap(localProfileImage);
         } else if (imageUrl != null && !imageUrl.isEmpty()) {

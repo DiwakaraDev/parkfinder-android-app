@@ -42,7 +42,7 @@ public class QrReceiptDialog extends DialogFragment {
     private static final String ARG_TIME     = "time";
     private static final String ARG_AMOUNT   = "amount";
 
-    // ── Factory constructor — always use this, never new QrReceiptDialog() ────
+    // ── Factory constructor
 
     public static QrReceiptDialog newInstance(String email, String mobile,
                                               String location, String date,
@@ -84,7 +84,7 @@ public class QrReceiptDialog extends DialogFragment {
         Button downloadBtn  = view.findViewById(R.id.download_pdf_btn);
         Button closeBtn     = view.findViewById(R.id.close_receipt_btn);
 
-        // ── Populate receipt fields ───────────────────────────────────────────
+        // ── Populate receipt fields ──────────────
         tvLocation.setText(location);
         tvDate.setText(date);
         tvTime.setText(time);
@@ -92,8 +92,8 @@ public class QrReceiptDialog extends DialogFragment {
         tvMobile.setText(mobile);
         tvAmount.setText("Rs. " + String.format("%.2f", amount));
 
-        // ── Generate QR ───────────────────────────────────────────────────────
-        // QR content: structured text with all booking details
+        // ── Generate QR ─────────────────────────────
+
         String qrContent =
                 "ParkFinder Booking Receipt" + "\n" +
                         "Location: "   + location    + "\n" +
@@ -110,7 +110,7 @@ public class QrReceiptDialog extends DialogFragment {
             qrImage.setVisibility(View.GONE);
         }
 
-        // ── Download PDF ──────────────────────────────────────────────────────
+        // ── Download PDF ─────────
         Bitmap finalQr = qrBitmap;
         downloadBtn.setOnClickListener(v ->
                 savePdf(requireContext(), email, mobile, location,
@@ -132,7 +132,6 @@ public class QrReceiptDialog extends DialogFragment {
         }
     }
 
-    // ── QR bitmap generation via ZXing ────────────────────────────────────────
 
     private Bitmap generateQrBitmap(String content, int size) {
         try {
@@ -148,9 +147,6 @@ public class QrReceiptDialog extends DialogFragment {
         }
     }
 
-    // ── PDF generation using Android PdfDocument API ──────────────────────────
-    // No external library required. A4 size = 595 x 842 pts at 72dpi.
-
     private void savePdf(Context ctx, String email, String mobile,
                          String location, String date, String time,
                          double amount, Bitmap qrBitmap) {
@@ -161,7 +157,7 @@ public class QrReceiptDialog extends DialogFragment {
         PdfDocument.Page page = pdf.startPage(pageInfo);
         Canvas c = page.getCanvas();
 
-        // ── Teal header ───────────────────────────────────────────────────────
+        // ── Teal header ───────
         Paint headerBg = new Paint();
         headerBg.setColor(Color.parseColor("#00BCD4"));
         c.drawRect(0, 0, 595, 90, headerBg);
@@ -172,7 +168,7 @@ public class QrReceiptDialog extends DialogFragment {
         Paint subWhite = makePaint(Color.WHITE, 13f, false);
         c.drawText("Booking Receipt", 40, 74, subWhite);
 
-        // ── Details table ─────────────────────────────────────────────────────
+        // ── Details table ────────
         String[][] rows = {
                 {"Location",   location},
                 {"Date",       date},
@@ -197,7 +193,7 @@ public class QrReceiptDialog extends DialogFragment {
             y += 36;
         }
 
-        // ── QR code ───────────────────────────────────────────────────────────
+        // ── QR code ─────────
         if (qrBitmap != null) {
             int qrSize = 180;
             Bitmap scaledQr = Bitmap.createScaledBitmap(qrBitmap, qrSize, qrSize, false);
@@ -209,7 +205,6 @@ public class QrReceiptDialog extends DialogFragment {
             c.drawText("Scan to verify booking", 297, y + qrSize + 36, qrCaption);
         }
 
-        // ── Footer ────────────────────────────────────────────────────────────
         Paint footerBg = new Paint();
         footerBg.setColor(Color.parseColor("#F5F5F5"));
         c.drawRect(0, 810, 595, 842, footerBg);
@@ -221,13 +216,13 @@ public class QrReceiptDialog extends DialogFragment {
 
         pdf.finishPage(page);
 
-        // ── Save PDF ──────────────────────────────────────────────────────────
+        // ── Save PDF ───────
         String fileName = "ParkFinder_Receipt_" + System.currentTimeMillis() + ".pdf";
         boolean saved = false;
 
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                // API 29+ — use MediaStore, no permission required
+
                 ContentValues cv = new ContentValues();
                 cv.put(MediaStore.Downloads.DISPLAY_NAME, fileName);
                 cv.put(MediaStore.Downloads.MIME_TYPE, "application/pdf");
@@ -242,7 +237,7 @@ public class QrReceiptDialog extends DialogFragment {
                     }
                 }
             } else {
-                // API < 29 — use File API (WRITE_EXTERNAL_STORAGE declared in manifest)
+
                 File dir = Environment.getExternalStoragePublicDirectory(
                         Environment.DIRECTORY_DOWNLOADS);
                 if (!dir.exists()) dir.mkdirs();
@@ -266,7 +261,7 @@ public class QrReceiptDialog extends DialogFragment {
         }
     }
 
-    // ── Paint factory helper ──────────────────────────────────────────────────
+    // ── Paint factory helper ────────
 
     private Paint makePaint(int color, float textSize, boolean bold) {
         Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);

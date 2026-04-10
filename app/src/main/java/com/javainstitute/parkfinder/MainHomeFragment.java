@@ -14,7 +14,6 @@ public class MainHomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main_home, container, false);
 
-        // Load the map/booking fragment initially
         getChildFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer, new MainHomeBooking())
                 .commit();

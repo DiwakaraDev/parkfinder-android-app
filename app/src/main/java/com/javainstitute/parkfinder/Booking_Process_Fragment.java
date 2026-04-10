@@ -73,12 +73,11 @@ public class Booking_Process_Fragment extends Fragment {
     private Booking currentBookingForPayment;
 
     // ── Intent-source flags ───────────────────────────────────────────────────
-    // Prevent call/SMS launchers from firing as a side-effect of
-    // the location permission grant triggered by Book Now.
+
     private boolean callRequested = false;
     private boolean smsRequested  = false;
 
-    // ── PayHere result launcher ───────────────────────────────────────────────
+    // ── PayHere result launcher ────────────────────────────────────────────────────────────────────────────────
 
     private final ActivityResultLauncher<Intent> paymentResultLauncher =
             registerForActivityResult(
@@ -125,7 +124,7 @@ public class Booking_Process_Fragment extends Fragment {
                     }
             );
 
-    // ── Location permission launcher (gates Book Now only) ────────────────────
+    // ── Location permission launcher (gates Book Now only) ──────────────────────────────────────────
 
     private final ActivityResultLauncher<String> locationPermissionLauncher =
             registerForActivityResult(
@@ -148,20 +147,18 @@ public class Booking_Process_Fragment extends Fragment {
                     }
             );
 
-    // ── CALL_PHONE permission launcher ────────────────────────────────────────
-    // Permission is requested first. Once granted, opens the DIALER —
-    // the user still manually taps Call inside the dialer app.
-    // callRequested flag prevents this firing from Book Now's location grant.
+    // ── CALL_PHONE permission launcher ─────────────────────────────────────────────────────────────────────────
+    // Permission is requested first.
 
     private final ActivityResultLauncher<String> callPermissionLauncher =
             registerForActivityResult(
                     new ActivityResultContracts.RequestPermission(),
                     granted -> {
-                        if (!callRequested) return; // not triggered by Call button — ignore
-                        callRequested = false;       // reset immediately
+                        if (!callRequested) return;
+                        callRequested = false;
 
                         if (granted) {
-                            openDialer(); // opens dialer, user taps Call manually
+                            openDialer();
                         } else {
                             if (!shouldShowRequestPermissionRationale(
                                     Manifest.permission.CALL_PHONE)) {
@@ -177,20 +174,17 @@ public class Booking_Process_Fragment extends Fragment {
                     }
             );
 
-    // ── SEND_SMS permission launcher ──────────────────────────────────────────
-    // Permission is requested first. Once granted, opens the SMS APP —
-    // the user still manually taps Send inside the SMS app.
-    // smsRequested flag prevents this firing from Book Now's location grant.
-
+    // ── SEND_SMS permission launcher ─────────────────────────────────────────────────────────────────────────────────────────────────
+    // Permission is requested first.
     private final ActivityResultLauncher<String> smsPermissionLauncher =
             registerForActivityResult(
                     new ActivityResultContracts.RequestPermission(),
                     granted -> {
-                        if (!smsRequested) return; // not triggered by Message button — ignore
-                        smsRequested = false;       // reset immediately
+                        if (!smsRequested) return;
+                        smsRequested = false;
 
                         if (granted) {
-                            openSmsApp(); // opens SMS app, user taps Send manually
+                            openSmsApp();
                         } else {
                             if (!shouldShowRequestPermissionRationale(
                                     Manifest.permission.SEND_SMS)) {
@@ -208,7 +202,7 @@ public class Booking_Process_Fragment extends Fragment {
 
     public Booking_Process_Fragment() {}
 
-    // ── View setup ────────────────────────────────────────────────────────────
+    // ── View setup ──────────────────────────────────────────────────────────────────────────────────
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -231,14 +225,14 @@ public class Booking_Process_Fragment extends Fragment {
         bookingDatePicker.setOnClickListener(v -> showDatePicker());
         bookingTimePicker.setOnClickListener(v -> showTimePicker());
 
-        // ── Book Now ──────────────────────────────────────────────────────────
+        // ── Book Now ───────────────────────────────────────────────────────────────────────────────────────────
         bookNowBtn.setOnClickListener(v -> {
             if (ContextCompat.checkSelfPermission(requireContext(),
                     Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
                 bookSelectedSeats();
             } else {
-                // callRequested / smsRequested are NOT set here — intentional
+
                 locationPermissionLauncher.launch(
                         Manifest.permission.ACCESS_FINE_LOCATION);
             }
@@ -254,7 +248,7 @@ public class Booking_Process_Fragment extends Fragment {
         }
 
         // ── Call button ───────────────────────────────────────────────────────
-        // Flow: check permission → request if needed → on grant → open dialer
+
         callButton.setOnClickListener(v -> {
             if (locationMobileNumber.isEmpty()) {
                 Toast.makeText(getContext(), "Phone number not available",
@@ -271,8 +265,8 @@ public class Booking_Process_Fragment extends Fragment {
             }
         });
 
-        // ── Message button ────────────────────────────────────────────────────
-        // Flow: check permission → request if needed → on grant → open SMS app
+        // ── Message button ─────────────────────────────────────────────────────────────────────────────────────
+
         messageButton.setOnClickListener(v -> {
             if (locationMobileNumber.isEmpty()) {
                 Toast.makeText(getContext(), "Phone number not available",
@@ -292,7 +286,7 @@ public class Booking_Process_Fragment extends Fragment {
         return view;
     }
 
-    // ── Open dialer — pre-fills number, user taps Call manually ──────────────
+    // ── Open dialer ─────────────────────────────────────────────────────────────────────
 
     private void openDialer() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
@@ -300,7 +294,7 @@ public class Booking_Process_Fragment extends Fragment {
         startActivity(intent);
     }
 
-    // ── Open SMS app — pre-fills number + message, user taps Send manually ───
+    // ── Open SMS app ─────────────────────────────────────────────────────────────────────────────
 
     private void openSmsApp() {
         String message = "Hello, I'm contacting about the parking booking at "
@@ -311,7 +305,7 @@ public class Booking_Process_Fragment extends Fragment {
         startActivity(intent);
     }
 
-    // ── Shared settings dialog ────────────────────────────────────────────────
+    // ── Shared settings dialog ───────────────────────────────────────────────────────
 
     private void showSettingsDialog(String message) {
         new AlertDialog.Builder(requireContext())
@@ -328,7 +322,7 @@ public class Booking_Process_Fragment extends Fragment {
                 .show();
     }
 
-    // ── Firestore ─────────────────────────────────────────────────────────────
+    // ── Firestore ───────────────────────────────────────────────────────────────────────────────────
 
     private void loadLocationMobileNumber(String locationName) {
         db.collection("register_locations")
@@ -581,7 +575,7 @@ public class Booking_Process_Fragment extends Fragment {
         paymentResultLauncher.launch(intent);
     }
 
-    // ── Booking POJO ──────────────────────────────────────────────────────────
+    // ── Booking POJO ────────────────────────────────────────────────────────────────────────────────
 
     public static class Booking {
         public String location_name, vehicle_number, date, time,

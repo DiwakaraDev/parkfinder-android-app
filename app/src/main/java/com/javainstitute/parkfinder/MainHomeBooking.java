@@ -43,8 +43,8 @@ public class MainHomeBooking extends Fragment implements OnMapReadyCallback {
     private AutoCompleteTextView searchBar;
     private ImageButton searchButton;
 
-    // ── Location permission launcher ──────────────────────────────────────────
-    // Registered as a field so it is always ready before onStart()
+    // ── Location permission launcher ──────────────────
+
     private final ActivityResultLauncher<String> locationPermissionLauncher =
             registerForActivityResult(
                     new ActivityResultContracts.RequestPermission(),
@@ -85,7 +85,7 @@ public class MainHomeBooking extends Fragment implements OnMapReadyCallback {
         return view;
     }
 
-    // ── Map ready ─────────────────────────────────────────────────────────────
+    // ── Map ready ──────────────────
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
@@ -96,8 +96,6 @@ public class MainHomeBooking extends Fragment implements OnMapReadyCallback {
 
         loadLocationsFromFirestore();
 
-        // Request location permission to enable the "My Location" blue-dot layer.
-        // The map markers / booking flow still work regardless of the result.
         if (ContextCompat.checkSelfPermission(requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             enableMyLocation();
@@ -117,10 +115,6 @@ public class MainHomeBooking extends Fragment implements OnMapReadyCallback {
         });
     }
 
-    /**
-     * Enables the "My Location" blue-dot and button.
-     * @SuppressLint is safe here — we always check permission before calling this method.
-     */
     @SuppressLint("MissingPermission")
     private void enableMyLocation() {
         if (googleMap != null) {
@@ -129,8 +123,7 @@ public class MainHomeBooking extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    // ── Firestore markers ─────────────────────────────────────────────────────
-
+    // ── Firestore markers ──────────────────────────
     private void loadLocationsFromFirestore() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference locationsRef = db.collection("register_locations");
@@ -173,8 +166,7 @@ public class MainHomeBooking extends Fragment implements OnMapReadyCallback {
                 .commit();
     }
 
-    // ── Search / Geocoding ────────────────────────────────────────────────────
-
+    // ── Search / Geocoding ────────────
     private void searchAndMoveToLocation() {
         String locationName = searchBar.getText().toString();
         if (locationName.isEmpty()) {
@@ -198,7 +190,7 @@ public class MainHomeBooking extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    // ── MapView lifecycle ─────────────────────────────────────────────────────
+    // ── MapView lifecycle ─────────────────────────
 
     @Override public void onResume()   { super.onResume();   if (mapView != null) mapView.onResume(); }
     @Override public void onPause()    { if (mapView != null) mapView.onPause();   super.onPause(); }

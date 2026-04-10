@@ -35,7 +35,7 @@ public class HomePage extends AppCompatActivity {
     ImageButton home_button_drawer;
     NavigationView navigationView;
 
-    // ── Shake to exit ─────────────────────────────────────────────────────────
+    // ── Shake to exit ─────────────────────────────────────────────────────────────────────────────────────────────────────
     private SensorManager sensorManager;
     private ShakeDetector shakeDetector;
 
@@ -88,16 +88,13 @@ public class HomePage extends AppCompatActivity {
             return true;
         });
 
-        // ── Shake detector setup ──────────────────────────────────────────────
+        // ── Shake detector setup ───────────────────────────────────────────────────────────────────────────────
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         shakeDetector = new ShakeDetector(() ->
-                // Sensor callbacks run off the main thread — dispatch to UI thread
                 runOnUiThread(this::confirmAndClose));
     }
 
-    // ── Shake detector lifecycle — MUST mirror Activity lifecycle ─────────────
-    // Registering in onResume / unregistering in onPause ensures the sensor is
-    // active ONLY while the app is in the foreground — no background battery drain.
+    // ── Shake detector lifecycle ─────────────
 
     @Override
     protected void onResume() {
@@ -112,10 +109,9 @@ public class HomePage extends AppCompatActivity {
     }
 
     // ── Confirmation dialog ───────────────────────────────────────────────────
-    // Prevents accidental exit from pocket/table vibrations.
 
     private void confirmAndClose() {
-        // Avoid stacking dialogs if the user shakes rapidly
+
         if (isFinishing() || isDestroyed()) return;
 
         new AlertDialog.Builder(this)
@@ -136,7 +132,7 @@ public class HomePage extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    // ── Drawer header data ────────────────────────────────────────────────────
+    // ── Drawer header data ────────────────────────────────────────────────────────────────────────────────────────────────
 
     private void loadUserDataToDrawerHeader() {
         View headerView = navigationView.getHeaderView(0);
@@ -205,7 +201,7 @@ public class HomePage extends AppCompatActivity {
                 });
     }
 
-    // ── Sign out with confirmation dialog ─────────────────────────────────────────
+    // ── Sign out with confirmation dialog ──────────────────────────
 
     private void showLogoutConfirmDialog() {
         new androidx.appcompat.app.AlertDialog.Builder(this)
@@ -218,16 +214,13 @@ public class HomePage extends AppCompatActivity {
     }
 
     private void signOut() {
-        // 1. Clear all SharedPreferences
+        //Clear all SharedPreferences
         getSharedPreferences("UserPrefs", MODE_PRIVATE)
                 .edit()
                 .clear()
                 .apply();
 
-        // 2. Sign out from Firebase Auth (if you use it)
-        // FirebaseAuth.getInstance().signOut();
-
-        // 3. Navigate to StartPage and clear the entire back stack
+        //Navigate to StartPage
         Intent intent = new Intent(this, StartPage.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
@@ -235,7 +228,7 @@ public class HomePage extends AppCompatActivity {
     }
 }
 
-// ── CircleTransform — Picasso transformation for circular profile images ──────
+//  CircleTransform
 class CircleTransform implements Transformation {
 
     @Override

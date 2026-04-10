@@ -35,7 +35,7 @@ public class GetStartedFragment extends Fragment {
         button.setOnClickListener(v -> {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.replace(R.id.fragment_container_get_start_page, new CreateAccFragment()); // Use the single container ID
+            transaction.replace(R.id.fragment_container_get_start_page, new CreateAccFragment());
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
             transaction.addToBackStack(null);
             transaction.commit();

@@ -30,10 +30,6 @@ public class SplashScreen extends AppCompatActivity {
 
     private boolean timerDone = false;
     private boolean permsDone = false;
-
-    // Tracks whether this is a re-request after rationale was shown.
-    // Fixes Bug 2: on first launch shouldShowRationale() returns false,
-    // same as "Don't ask again" — we use this flag to tell them apart.
     private boolean isRetryRequest = false;
 
     private ActivityResultLauncher<String[]> permissionLauncher;
@@ -55,7 +51,6 @@ public class SplashScreen extends AppCompatActivity {
             return insets;
         });
 
-        // Register BEFORE launch — mandatory in onCreate
         permissionLauncher = registerForActivityResult(
                 new ActivityResultContracts.RequestMultiplePermissions(),
                 this::handlePermissionResults
@@ -65,9 +60,7 @@ public class SplashScreen extends AppCompatActivity {
         checkAndRequestPermissions();
     }
 
-    // ─────────────────────────────────────────────
     // Timer
-    // ─────────────────────────────────────────────
 
     private void startSplashTimer() {
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
@@ -76,15 +69,8 @@ public class SplashScreen extends AppCompatActivity {
         }, 3000);
     }
 
-    // ─────────────────────────────────────────────
     // Permissions
-    // ─────────────────────────────────────────────
 
-    /**
-     * Returns only permissions that are DECLARED in the manifest.
-     * Requesting undeclared permissions causes silent failure on Android — Bug 1 fix.
-     * Storage permission differs by API level: READ_MEDIA_IMAGES (API 33+) vs READ_EXTERNAL_STORAGE.
-     */
     private String[] getRequiredPermissions() {
         List<String> permissions = new ArrayList<>();
         permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
@@ -118,20 +104,6 @@ public class SplashScreen extends AppCompatActivity {
         }
     }
 
-    /**
-     * Called by the system after the user responds to the permission dialog.
-     *
-     * State machine (Bug 2 fix — uses isRetryRequest, not shouldShowRationale alone):
-     *
-     *   First launch (isRetryRequest = false):
-     *     All granted  → navigate
-     *     Some denied  → show rationale dialog, set isRetryRequest = true
-     *
-     *   After rationale (isRetryRequest = true):
-     *     All granted  → navigate
-     *     Some denied + shouldShowRationale = false → "Don't ask again" → Settings dialog
-     *     Some denied + shouldShowRationale = true  → user keeps denying → continue anyway
-     */
     private void handlePermissionResults(Map<String, Boolean> results) {
         List<String> denied = new ArrayList<>();
         for (Map.Entry<String, Boolean> entry : results.entrySet()) {
@@ -141,17 +113,17 @@ public class SplashScreen extends AppCompatActivity {
         }
 
         if (denied.isEmpty()) {
-            // All permissions granted
+
             permsDone = true;
             tryNavigate();
 
         } else if (!isRetryRequest) {
-            // First denial — show rationale and offer to retry once
+
             isRetryRequest = true;
             showRationaleDialog(denied.toArray(new String[0]));
 
         } else {
-            // Second denial — check if any are permanently blocked ("Don't ask again")
+
             boolean hasPermanentDenial = false;
             for (String permission : denied) {
                 if (!shouldShowRequestPermissionRationale(permission)) {
@@ -163,7 +135,7 @@ public class SplashScreen extends AppCompatActivity {
             if (hasPermanentDenial) {
                 showPermanentDenialDialog();
             } else {
-                // User denied twice but hasn't tapped "Don't ask again" — let them continue
+
                 permsDone = true;
                 tryNavigate();
             }
@@ -209,14 +181,8 @@ public class SplashScreen extends AppCompatActivity {
                 .show();
     }
 
-    // ─────────────────────────────────────────────
     // Navigation Gate
-    // ─────────────────────────────────────────────
 
-    /**
-     * Fires only when BOTH the 3-second timer AND permission flow are complete.
-     * This ensures the splash duration is always respected.
-     */
     private void tryNavigate() {
         if (!timerDone || !permsDone) return;
 

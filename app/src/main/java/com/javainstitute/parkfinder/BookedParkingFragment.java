@@ -147,7 +147,7 @@ public class BookedParkingFragment extends Fragment {
         payHereLauncher.launch(intent);
     }
 
-    // ── Firestore update + trigger QR receipt ─────────────────────────────────
+    // ── Firestore update + QR receipt ─────────────────────────────────
 
     private void updateBookingAfterPayment(String docId, double paidAmount) {
         CollectionReference bookingsRef = firestore.collection("bookings");
@@ -175,13 +175,11 @@ public class BookedParkingFragment extends Fragment {
                                 Toast.makeText(getContext(),
                                         "Booking confirmed!", Toast.LENGTH_SHORT).show();
 
-                                // Refresh list
                                 SharedPreferences prefs = requireActivity()
                                         .getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
                                 String email = prefs.getString("email", "");
                                 if (!email.isEmpty()) loadUserBookings(email);
 
-                                // Show QR receipt — fetch mobile first
                                 showQrReceipt(email, totalAmount);
                             })
                             .addOnFailureListener(e -> {
@@ -225,7 +223,7 @@ public class BookedParkingFragment extends Fragment {
                     dialog.show(getChildFragmentManager(), "qr_receipt");
                 })
                 .addOnFailureListener(e -> {
-                    // Show dialog even if mobile fetch fails
+
                     QrReceiptDialog dialog = QrReceiptDialog.newInstance(
                             userEmail, "N/A",
                             selectedBooking.getLocation(),

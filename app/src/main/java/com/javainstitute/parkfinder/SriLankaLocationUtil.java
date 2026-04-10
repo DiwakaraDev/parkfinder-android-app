@@ -6,9 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SriLankaLocationUtil {
-    /**
-     * Returns a static list of Sri Lankan towns and cities.
-     */
+
     public static List<String> getAllSriLankaLocations(Context context) {
         return Arrays.asList(
                 "Ampara", "Anuradhapura", "Badulla", "Batticaloa", "Colombo", "Galle", "Gampaha", "Hambantota",
@@ -23,7 +21,7 @@ public class SriLankaLocationUtil {
                 "Haputale", "Horana", "Inuvil", "Ja-Ela", "Kalawana", "Kamburupitiya", "Kesbewa", "Kiribathgoda",
                 "Mannar", "Marawila", "Monaragala", "Mount Lavinia", "Mullaitivu", "Nittambuwa", "Padukka",
                 "Peliyagoda", "Peradeniya", "Seeduwa", "Tangalle", "Thalawakele"
-                // Add more cities/towns if desired
+
         );
     }
 }

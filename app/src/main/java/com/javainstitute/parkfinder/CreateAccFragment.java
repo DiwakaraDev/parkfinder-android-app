@@ -91,19 +91,19 @@ public class CreateAccFragment extends Fragment {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                        // Email already exists
+
                         Toast.makeText(getContext(), "This email is already registered", Toast.LENGTH_SHORT).show();
                     } else {
-                        // Check if the mobile number exists
+
                         db.collection("users")
                                 .whereEqualTo("mobile", mobile)
                                 .get()
                                 .addOnCompleteListener(mobileTask -> {
                                     if (mobileTask.isSuccessful() && !mobileTask.getResult().isEmpty()) {
-                                        // Mobile already exists
+
                                         Toast.makeText(getContext(), "This mobile number is already registered", Toast.LENGTH_SHORT).show();
                                     } else {
-                                        // Email and Mobile don't exist, proceed with saving user data
+
                                         String userId = UUID.randomUUID().toString();
                                         saveUserData(userId, fName, lName, email, mobile, PW);
                                     }
@@ -113,7 +113,7 @@ public class CreateAccFragment extends Fragment {
     }
 
     private void saveUserData(String userId, String fName, String lName, String email, String mobile, String PW) {
-        // Prepare user data
+
         Map<String, Object> userMap = new HashMap<>();
         userMap.put("email", email);
         userMap.put("f_name", fName);
@@ -127,14 +127,14 @@ public class CreateAccFragment extends Fragment {
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(getContext(), "Account Created Successfully!", Toast.LENGTH_SHORT).show();
                     clearInputFields();
-                    // Redirect to Login Fragment using FragmentTransaction
+                    // Redirect to Login
                     redirectToLoginFragment();
                 })
                 .addOnFailureListener(e -> Toast.makeText(getContext(), "Error saving data: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
     private void clearInputFields() {
-        // Clear the input fields after successful sign-up
+
         EditText firstName = getView().findViewById(R.id.create_acc_f_name);
         EditText lastName = getView().findViewById(R.id.user_profile_acc_l_name);
         EditText email = getView().findViewById(R.id.user_profile_acc_email);
@@ -149,10 +149,10 @@ public class CreateAccFragment extends Fragment {
     }
 
     private void redirectToLoginFragment() {
-        // Redirect to UserLoginFragment using FragmentManager and FragmentTransaction
+
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.fragment_container_get_start_page, new UserLoginFragment()); // Replace with UserLoginFragment
+        transaction.replace(R.id.fragment_container_get_start_page, new UserLoginFragment());
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
         transaction.addToBackStack(null);
         transaction.commit();
